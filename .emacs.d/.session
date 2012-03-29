@@ -1,0 +1,14 @@
+;;; -*- coding: iso-latin-1-with-esc; -*-
+;;; Automatically generated on Thu Sep 30 10:49:36 2010
+;;; Invoked by H00048@STCOM572 using 22.2.1
+(setq-default kill-ring '(#("notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+" 0 55 (face font-lock-comment-face fontified t) 55 58 (face font-lock-comment-delimiter-face fontified t) 58 118 (face font-lock-comment-face fontified t) 118 121 (face font-lock-comment-delimiter-face fontified t) 121 168 (face font-lock-comment-face fontified t) 168 169 (fontified t)) #("ate a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+" 0 42 (face font-lock-comment-face fontified t) 42 45 (face font-lock-comment-delimiter-face fontified t) 45 92 (face font-lock-comment-face fontified t) 92 93 (fontified t)) #("$(B$3$l$OCf!9NI$$%F%9%H$G$9(B" 0 12 (fontified t))))
+(setq-default color-theme-history '((color-theme-standard t) (nil t) (color-theme-gnome2 t) (color-theme-salmon-diff t) (color-theme-salmon-font-lock t) (color-theme-blue-eshell t) (color-theme-blue-erc t) (color-theme-blue-gnus t)))
+(setq-default global-mark-ring 'nil)
+(setq-default hi-lock-face-history '("hi-yellow" "hi-pink" "hi-green" "hi-blue" "hi-black-b" "hi-blue-b" "hi-red-b" "hi-green-b" "hi-black-hb"))
