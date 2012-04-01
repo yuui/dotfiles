@@ -9,15 +9,15 @@
 
 ;;; load-pathに追加するフォルダ
 ;;; 2つ以上指定する場合の形 -> (add-to-load-path "elisp" "xxx" "xxx")
-(add-to-load-path "elisp" "conf" "auto-install" "elpa")
+(add-to-load-path "elisp" "auto-install" "elpa")
 
 ;;; install-elisp
-(require 'install-elisp)
+(when (require 'install-elisp nil t))
 
 ;;; auto-install
-(require 'auto-install)
-(setq auto-install-directory "~/.emacs.d/auto-install/")
-(auto-install-update-emacswiki-package-name t) ;; optional
+(when (require 'auto-install nil t)
+  (setq auto-install-directory "~/.emacs.d/auto-install/")
+  (auto-install-update-emacswiki-package-name t)) ;; optional
 
 ;;; ELPA - package.el
 ;; ref) Emacs 実践入門 p.116
@@ -26,6 +26,23 @@
 			   '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("ELPA", "http://tromey.com/elpa/"))
   (package-initialize))
+
+;; bufferの先頭でカーソルを戻そうとしても音をならなくする
+(defun previous-line (arg)
+  (interactive "p")
+  (condition-case nil
+      (line-move (- arg))
+    (beginning-of-buffer)))
+
+;; bufferの最後でカーソルを動かそうとしても音をならなくする
+(defun next-line (arg)
+  (interactive "p")
+  (condition-case nil
+      (line-move arg)
+    (end-of-buffer)))
+
+;; エラー音をならなくする
+(setq ring-bell-function 'ignore)
 
 ;;; スタートアップ非表示
 (setq inhibit-startup-screen t)
@@ -51,12 +68,55 @@
 ;;; 括弧の範囲色
 (set-face-background 'show-paren-match-face "#800")
 
-;;; Windows で英数に DejaVu Sans Mono、日本語にMeiryoを指定
+;;; フォント設定 (Mac)
+(when (and (eq system-type 'darwin) (>= emacs-major-version 23))
+ (setq fixed-width-use-QuickDraw-for-ascii t)
+ (setq mac-allow-anti-aliasing t)
+ (set-face-attribute 'default nil
+                     :family "menlo"
+                     :height 140)
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'japanese-jisx0208
+  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'japanese-jisx0212
+  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+ ;;; Unicode フォント
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'mule-unicode-0100-24ff
+  '("menlo" . "iso10646-1"))
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'cyrillic-iso8859-5
+  '("menlo" . "iso10646-1"))
+;;; ギリシア文字
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'greek-iso8859-7
+  '("menlo" . "iso10646-1"))
+ (setq face-font-rescale-alist
+       '(("^-apple-hiragino.*" . 1.0)
+         (".*osaka-bold.*" . 1.2)
+         (".*osaka-medium.*" . 1.2)
+         (".*courier-bold-.*-mac-roman" . 1.0)
+         (".*menlo cy-bold-.*-mac-cyrillic" . 0.9)
+         (".*menlo-bold-.*-mac-roman" . 0.9)
+         ("-cdac$" . 1.3))))
+
+;;; フォント設定(Windows)
+;;; Windows で英数にDejaVu Sans Mono、日本語にMeiryoを指定
 (when (eq window-system 'w32)
   (set-face-attribute 'default nil
                       :family "DejaVu Sans Mono"
                       :height 100)
   (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Meiryo")))
+
+;;￥マークを\にする(Mac用)
+(when (eq system-type 'darwin)
+  (define-key key-translation-map [?\xa5] [?\\]))
 
 ;;; バックアップを残さない
 (setq make-backup-files nil)
@@ -70,6 +130,14 @@
 ;(color-theme-hober)
 (color-theme-clarity)
 
+;;; Emacs Lisp モード
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda ()
+             (highlight-parentheses-mode)
+             (setq autopair-handle-action-fns
+                   (list 'autopair-default-handle-action
+                         '(lambda (action pair pos-before)
+                            (hl-paren-color-update))))))
 ;;; C# モード
 (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 (setq auto-mode-alist
@@ -108,13 +176,21 @@
 (global-set-key [triple-wheel-up] 'scroll-down-with-lines)
 (global-set-key [triple-wheel-down] 'scroll-up-with-lines)
 
+;;; レインボー括弧(Rainbow Parentheses)
+(when (require 'highlight-parentheses nil t)
+  (setq hl-paren-colors
+      '(;"#8f8f8f" ; this comes from Zenburn
+                   ; and I guess I'll try to make the far-outer parens look like this
+        "orange1" "yellow1" "greenyellow" "green1"
+        "springgreen1" "cyan1" "slateblue1" "magenta1" "purple")))
+
 ;;; SQL-mode
-(require 'sql)
-(add-hook 'sql-interactive-mode-hook
-          #'(lambda ()
-              (interactive)
-              (set-buffer-process-coding-system 'sjis-unix 'sjis-unix )
-              (setq show-trailing-whitespace nil)))
+(when (require 'sql nil t)
+  (add-hook 'sql-interactive-mode-hook
+			#'(lambda ()
+				(interactive)
+				(set-buffer-process-coding-system 'sjis-unix 'sjis-unix )
+				(setq show-trailing-whitespace nil))))
 
 ;;; Tramp (FTP/SSH tool)
 (require 'tramp)
@@ -163,9 +239,9 @@
 
 ;;; SLIME
 (setq inferior-lisp-program "sbcl") ; My Lisp system
-(require 'slime)
-(slime-setup '(slime-fancy))
-(require 'slime-repl)
+(when (require 'slime nil t)
+  (slime-setup '(slime-fancy))
+  (require 'slime-repl))
 
 ;;; 自作ユーティリティ関数
 ;;; C#: sql.Append(" "); 除去
