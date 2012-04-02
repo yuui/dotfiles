@@ -1,4 +1,4 @@
-;;; load-path‚Ì’Ç‰ÁŠÖ”
+ï»¿;;; load-pathã®è¿½åŠ é–¢æ•°
 (defun add-to-load-path (&rest paths)
   (let (path)
     (dolist (path paths paths)
@@ -7,8 +7,8 @@
         (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
             (normal-top-level-add-subdirs-to-load-path))))))
 
-;;; load-path‚É’Ç‰Á‚·‚éƒtƒHƒ‹ƒ_
-;;; 2‚ÂˆÈãw’è‚·‚éê‡‚ÌŒ` -> (add-to-load-path "elisp" "xxx" "xxx")
+;;; load-pathã«è¿½åŠ ã™ã‚‹ãƒ•ã‚©ãƒ«ãƒ€
+;;; 2ã¤ä»¥ä¸ŠæŒ‡å®šã™ã‚‹å ´åˆã®å½¢ -> (add-to-load-path "elisp" "xxx" "xxx")
 (add-to-load-path "elisp" "auto-install" "elpa")
 
 ;;; install-elisp
@@ -20,55 +20,55 @@
   (auto-install-update-emacswiki-package-name t)) ;; optional
 
 ;;; ELPA - package.el
-;; ref) Emacs À‘H“ü–å p.116
+;; ref) Emacs å®Ÿè·µå…¥é–€ p.116
 (when (require 'package nil t)
   (add-to-list 'package-archives
 			   '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("ELPA", "http://tromey.com/elpa/"))
   (package-initialize))
 
-;; buffer‚Ìæ“ª‚ÅƒJ[ƒ\ƒ‹‚ğ–ß‚»‚¤‚Æ‚µ‚Ä‚à‰¹‚ğ‚È‚ç‚È‚­‚·‚é
+;; bufferã®å…ˆé ­ã§ã‚«ãƒ¼ã‚½ãƒ«ã‚’æˆ»ãã†ã¨ã—ã¦ã‚‚éŸ³ã‚’ãªã‚‰ãªãã™ã‚‹
 (defun previous-line (arg)
   (interactive "p")
   (condition-case nil
       (line-move (- arg))
     (beginning-of-buffer)))
 
-;; buffer‚ÌÅŒã‚ÅƒJ[ƒ\ƒ‹‚ğ“®‚©‚»‚¤‚Æ‚µ‚Ä‚à‰¹‚ğ‚È‚ç‚È‚­‚·‚é
+;; bufferã®æœ€å¾Œã§ã‚«ãƒ¼ã‚½ãƒ«ã‚’å‹•ã‹ãã†ã¨ã—ã¦ã‚‚éŸ³ã‚’ãªã‚‰ãªãã™ã‚‹
 (defun next-line (arg)
   (interactive "p")
   (condition-case nil
       (line-move arg)
     (end-of-buffer)))
 
-;; ƒGƒ‰[‰¹‚ğ‚È‚ç‚È‚­‚·‚é
+;; ã‚¨ãƒ©ãƒ¼éŸ³ã‚’ãªã‚‰ãªãã™ã‚‹
 (setq ring-bell-function 'ignore)
 
-;;; ƒXƒ^[ƒgƒAƒbƒv”ñ•\¦
+;;; ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—éè¡¨ç¤º
 (setq inhibit-startup-screen t)
 
-;;; ƒc[ƒ‹ƒo[”ñ•\¦
+;;; ãƒ„ãƒ¼ãƒ«ãƒãƒ¼éè¡¨ç¤º
 (tool-bar-mode 0)
 
-;;; ƒ^ƒCƒgƒ‹ƒo[‚Éƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğ•\¦
+;;; ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ãƒ«ãƒ‘ã‚¹ã‚’è¡¨ç¤º
 (setq frame-title-format "%f")
 
-;;; •¶šƒR[ƒh
+;;; æ–‡å­—ã‚³ãƒ¼ãƒ‰
 ;(set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (setq file-name-coding-system 'cp932)
 (setq locale-coding-system 'utf-8)
 
-;;; Š‡ŒÊ‚Ì”ÍˆÍ“à‚ğ‹­’²•\¦
+;;; æ‹¬å¼§ã®ç¯„å›²å†…ã‚’å¼·èª¿è¡¨ç¤º
 (setq show-paren-delay 0)
 (show-paren-mode t)
 (setq show-paren-style 'expression)
 
-;;; Š‡ŒÊ‚Ì”ÍˆÍF
+;;; æ‹¬å¼§ã®ç¯„å›²è‰²
 (set-face-background 'show-paren-match-face "#800")
 
-;;; ƒtƒHƒ“ƒgİ’è (Mac)
+;;; ãƒ•ã‚©ãƒ³ãƒˆè¨­å®š (Mac)
 (when (and (eq system-type 'darwin) (>= emacs-major-version 23))
  (setq fixed-width-use-QuickDraw-for-ascii t)
  (setq mac-allow-anti-aliasing t)
@@ -83,7 +83,7 @@
   (frame-parameter nil 'font)
   'japanese-jisx0212
   '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- ;;; Unicode ƒtƒHƒ“ƒg
+ ;;; Unicode ãƒ•ã‚©ãƒ³ãƒˆ
  (set-fontset-font
   (frame-parameter nil 'font)
   'mule-unicode-0100-24ff
@@ -92,7 +92,7 @@
   (frame-parameter nil 'font)
   'cyrillic-iso8859-5
   '("menlo" . "iso10646-1"))
-;;; ƒMƒŠƒVƒA•¶š
+;;; ã‚®ãƒªã‚·ã‚¢æ–‡å­—
  (set-fontset-font
   (frame-parameter nil 'font)
   'greek-iso8859-7
@@ -106,31 +106,36 @@
          (".*menlo-bold-.*-mac-roman" . 0.9)
          ("-cdac$" . 1.3))))
 
-;;; ƒtƒHƒ“ƒgİ’è(Windows)
-;;; Windows ‚Å‰p”‚ÉDejaVu Sans MonoA“ú–{Œê‚ÉMeiryo‚ğw’è
+;;; ãƒ•ã‚©ãƒ³ãƒˆè¨­å®š(Windows)
+;;; Windows ã§è‹±æ•°ã«DejaVu Sans Monoã€æ—¥æœ¬èªã«Meiryoã‚’æŒ‡å®š
 (when (eq window-system 'w32)
   (set-face-attribute 'default nil
                       :family "DejaVu Sans Mono"
                       :height 100)
-  (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Meiryo")))
+  ;; æ—¥æœ¬èªã¯ãƒ¡ã‚¤ãƒªã‚ªã§è¡¨ç¤ºã™ã‚‹
+  ;(set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Meiryo"))
+  ; æ—¥æœ¬èªã¯ãƒ¡ã‚¤ãƒªã‚ªã§è¡¨ç¤ºã™ã‚‹
+  (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "MS Gothic"))
+  ; ãŸã ã—åŠè§’ã‚«ãƒŠã¯MS Gothicã§è¡¨ç¤ºã™ã‚‹
+  (set-fontset-font nil 'katakana-jisx0201 (font-spec :family "MS Gothic")))
 
-;;ƒ}[ƒN‚ğ\‚É‚·‚é(Mac—p)
+;;ï¿¥ãƒãƒ¼ã‚¯ã‚’\ã«ã™ã‚‹(Macç”¨)
 (when (eq system-type 'darwin)
   (define-key key-translation-map [?\xa5] [?\\]))
 
-;;; ƒoƒbƒNƒAƒbƒv‚ğc‚³‚È‚¢
+;;; ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã‚’æ®‹ã•ãªã„
 (setq make-backup-files nil)
 
-;;; s”Ô†•\¦
+;;; è¡Œç•ªå·è¡¨ç¤º
 (global-linum-mode)
 
-;;; Color Theme ‚ğ—LŒø‚É‚·‚é
+;;; Color Theme ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 (require 'color-theme)
 (color-theme-initialize)
 ;(color-theme-hober)
 (color-theme-clarity)
 
-;;; Emacs Lisp ƒ‚[ƒh
+;;; Emacs Lisp ãƒ¢ãƒ¼ãƒ‰
 (add-hook 'emacs-lisp-mode-hook
           '(lambda ()
              (highlight-parentheses-mode)
@@ -138,33 +143,33 @@
                    (list 'autopair-default-handle-action
                          '(lambda (action pair pos-before)
                             (hl-paren-color-update))))))
-;;; C# ƒ‚[ƒh
+;;; C# ãƒ¢ãƒ¼ãƒ‰
 (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 (setq auto-mode-alist
       (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
 
-;;; ASPX ƒ‚[ƒh
+;;; ASPX ãƒ¢ãƒ¼ãƒ‰
 (autoload 'aspx-mode "aspx-mode" "Major mode for editing apsx code." t)
 (setq auto-mode-alist
 	  (append '(("\\.aspx$" . aspx-mode)) auto-mode-alist))
 (setq auto-mode-alist
 	  (append '(("\\.ascx$" . aspx-mode)) auto-mode-alist))
 
-;;; TAB•
+;;; TABå¹…
 (setq-default tab-width 4)
 
-;;; Shift + ƒJ[ƒ\ƒ‹ƒL[@‚Åƒoƒbƒtƒ@ˆÚ“®
+;;; Shift + ã‚«ãƒ¼ã‚½ãƒ«ã‚­ãƒ¼ã€€ã§ãƒãƒƒãƒ•ã‚¡ç§»å‹•
 (setq windmove-wrap-around t)
 (windmove-default-keybindings)
 
-;;; ƒc[ƒ‹ƒo[‚ğ”ñ•\¦
+;;; ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’éè¡¨ç¤º
 (tool-bar-mode -1)
 
-;;; ƒƒjƒ…[ƒo[‚ğ”ñ•\¦
+;;; ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚’éè¡¨ç¤º
 ;(menu-bar-mode -1)
 
-;;; ƒ}ƒEƒX‚ÌƒzƒC[ƒ‹ƒXƒNƒ[ƒ‹ƒXƒs[ƒh‚ğ’²ß
-;; (˜A‘±‚µ‚Ä‰ñ‚µ‚Ä‚¢‚é‚Æ‚Æ‚ñ‚Å‚à‚È‚¢‘‚³‚É‚È‚Á‚Ä‚µ‚Ü‚¤B“Á‚ÉLogicool‚Ìƒ}ƒEƒX)
+;;; ãƒã‚¦ã‚¹ã®ãƒ›ã‚¤ãƒ¼ãƒ«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã‚¹ãƒ”ãƒ¼ãƒ‰ã‚’èª¿ç¯€
+;; (é€£ç¶šã—ã¦å›ã—ã¦ã„ã‚‹ã¨ã¨ã‚“ã§ã‚‚ãªã„æ—©ã•ã«ãªã£ã¦ã—ã¾ã†ã€‚ç‰¹ã«Logicoolã®ãƒã‚¦ã‚¹)
 (defun scroll-down-with-lines ()
   "" (interactive) (scroll-down 3))
 (defun scroll-up-with-lines ()
@@ -176,7 +181,7 @@
 (global-set-key [triple-wheel-up] 'scroll-down-with-lines)
 (global-set-key [triple-wheel-down] 'scroll-up-with-lines)
 
-;;; ƒŒƒCƒ“ƒ{[Š‡ŒÊ(Rainbow Parentheses)
+;;; ãƒ¬ã‚¤ãƒ³ãƒœãƒ¼æ‹¬å¼§(Rainbow Parentheses)
 (when (require 'highlight-parentheses nil t)
   (setq hl-paren-colors
       '(;"#8f8f8f" ; this comes from Zenburn
@@ -193,19 +198,22 @@
 				(setq show-trailing-whitespace nil))))
 
 ;;; Tramp (FTP/SSH tool)
-(require 'tramp)
+;;; Usage)
+;;; C-f /ftp:user@server:/Path/to/file/file.txt
+(when (require 'tramp nil t)
+  (setq tramp-default-method "ftp"))
 
-;;; Gitƒtƒƒ“ƒgƒGƒ“ƒhEgg‚Ìİ’è
+;;; Gitãƒ•ãƒ­ãƒ³ãƒˆã‚¨ãƒ³ãƒ‰Eggã®è¨­å®š
 (when (executable-find "git")
   (require 'egg nil t))
 
-;;; SVNƒtƒƒ“ƒgƒGƒ“ƒh‚Ìİ’è
+;;; SVNãƒ•ãƒ­ãƒ³ãƒˆã‚¨ãƒ³ãƒ‰ã®è¨­å®š
 (when (executable-find "svn")
   (setq svn-status-verbose nil)
   (autoload 'svn-status "psvn" "Run `svn status'." t))
 
 ;;; color-moccur
-;; ref) Emacs À‘H“ü–å p.132
+;; ref) Emacs å®Ÿè·µå…¥é–€ p.132
 (when (require 'color-moccur nil t)
   (define-key global-map (kbd "M-o") 'occur-by-moccur)
   (setq moccur-split-word t)
@@ -216,15 +224,15 @@
 	(setq moccur-use-migemo t)))
 
 ;;; moccur-edit
-;; ref) Emacs À‘H“ü–å p.134
+;; ref) Emacs å®Ÿè·µå…¥é–€ p.134
 (require 'moccur-edit nil t)
 
 ;;; wgrep
-;; ref) Emacs À‘H“ü–å p.136
+;; ref) Emacs å®Ÿè·µå…¥é–€ p.136
 (require 'wgrep nil t)
 
 ;;; auto-complete
-;; ref) Emacs À‘H“ü–å p.131
+;; ref) Emacs å®Ÿè·µå…¥é–€ p.131
 (when (require 'auto-complete-config nil t)
   (add-to-list 'ac-dictionary-directories
 			   "~/.emacs.d/elisp/ac-dict")
@@ -243,8 +251,12 @@
   (slime-setup '(slime-fancy))
   (require 'slime-repl))
 
-;;; ©ìƒ†[ƒeƒBƒŠƒeƒBŠÖ”
-;;; C#: sql.Append(" "); œ‹
+;;; è‡ªä½œãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£é–¢æ•°
+;;; C#: sql.Append(" "); é™¤å»
 (defun remove-sql-append ()
-  (replace-regexp "^[ ^I]+sql.Append(\"" "" nil)
+  (interactive)
+  (replace-regexp "^[\t ^I]+sql.Append(\"" "" nil)
   (replace-regexp "\");$" "" nil))
+
+;;; Emacs Serverã‚’èµ·å‹•
+(server-start)
