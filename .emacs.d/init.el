@@ -279,26 +279,10 @@
   (replace-regexp "\");$" "" nil))
 
 ;;; キーバインド定義
+;;; C-t で ウィンドウ間を移動する
 (define-key global-map (kbd "C-t") 'other-window)
 
 ;;; Emacs Serverを起動
 ;;; Windowsの場合:
 ;;; C:\emacs\bin\emacsclientw.exe -n --a C:\emacs\bin\runemacs.exe "%1"
 (server-start)
-
-
-;;; 自作ユーティリティ関数
-;;; C#: sql.Append(" "); 除去
-(defun remove-sql-append ()
-  (interactive)
-  (replace-regexp "^[\t ^I]+sql.Append(\"" "" nil)
-  (replace-regexp "\");$" "" nil))
-
-;;; キーバインド定義
-(define-key global-map (kbd "C-t") 'other-window)
-
-;;; Emacs Serverを起動
-;;; Windowsの場合:
-;;; C:\emacs\bin\emacsclientw.exe -n --a C:\emacs\bin\runemacs.exe "%1"
-(server-start)
-
