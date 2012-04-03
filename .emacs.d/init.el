@@ -134,7 +134,8 @@
 (color-theme-initialize)
 ;(color-theme-hober)
 ;(color-theme-clarity)
-(color-theme-taylor)
+;(color-theme-taylor)
+(color-theme-twilight)
 
 ;;; Emacs Lisp モード
 (add-hook 'emacs-lisp-mode-hook
@@ -195,6 +196,13 @@
                    ; and I guess I'll try to make the far-outer parens look like this
         "orange1" "yellow1" "greenyellow" "green1"
         "springgreen1" "cyan1" "slateblue1" "magenta1" "purple")))
+
+;;; シンボルをハイライトする
+(when (require 'highlight-symbol nil t)
+  (global-set-key [(control f3)] 'highlight-symbol-at-point)
+  (global-set-key [f3] 'highlight-symbol-next)
+  (global-set-key [(shift f3)] 'highlight-symbol-prev)
+  (global-set-key [(meta f3)] 'highlight-symbol-prev))
 
 ;;; SQL-mode
 (when (require 'sql nil t)
@@ -262,6 +270,22 @@
 (when (require 'slime nil t)
   (slime-setup '(slime-fancy))
   (require 'slime-repl))
+
+;;; 自作ユーティリティ関数
+;;; C#: sql.Append(" "); 除去
+(defun remove-sql-append ()
+  (interactive)
+  (replace-regexp "^[\t ^I]+sql.Append(\"" "" nil)
+  (replace-regexp "\");$" "" nil))
+
+;;; キーバインド定義
+(define-key global-map (kbd "C-t") 'other-window)
+
+;;; Emacs Serverを起動
+;;; Windowsの場合:
+;;; C:\emacs\bin\emacsclientw.exe -n --a C:\emacs\bin\runemacs.exe "%1"
+(server-start)
+
 
 ;;; 自作ユーティリティ関数
 ;;; C#: sql.Append(" "); 除去
