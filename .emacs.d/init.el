@@ -133,7 +133,8 @@
 (require 'color-theme)
 (color-theme-initialize)
 ;(color-theme-hober)
-(color-theme-clarity)
+;(color-theme-clarity)
+(color-theme-taylor)
 
 ;;; Emacs Lisp モード
 (add-hook 'emacs-lisp-mode-hook
@@ -180,6 +181,12 @@
 (global-set-key [double-wheel-down] 'scroll-up-with-lines)
 (global-set-key [triple-wheel-up] 'scroll-down-with-lines)
 (global-set-key [triple-wheel-down] 'scroll-up-with-lines)
+
+;;; ctags.el の設定
+(require 'ctags nil t)
+(setq tags-revert-without-query t)
+(setq ctags-command "ctags -R --fields\"+afikKlmnsSzt\" ")
+;(global-set-key (kbd "<f5>") 'ctags-create-or-update-tags-table)
 
 ;;; レインボー括弧(Rainbow Parentheses)
 (when (require 'highlight-parentheses nil t)
@@ -243,7 +250,12 @@
 (require 'multi-term nil t)
 
 ;;; Anything
-;(require 'anything-startup)
+(require 'anything)
+(require 'anything-config)
+(require 'anything-auto-install)
+(require 'anything-grep)
+(require 'anything-migemo)
+(require 'anything-complete)
 
 ;;; SLIME
 (setq inferior-lisp-program "sbcl") ; My Lisp system
@@ -258,5 +270,11 @@
   (replace-regexp "^[\t ^I]+sql.Append(\"" "" nil)
   (replace-regexp "\");$" "" nil))
 
+;;; キーバインド定義
+(define-key global-map (kbd "C-t") 'other-window)
+
 ;;; Emacs Serverを起動
+;;; Windowsの場合:
+;;; C:\emacs\bin\emacsclientw.exe -n --a C:\emacs\bin\runemacs.exe "%1"
 (server-start)
+
