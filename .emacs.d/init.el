@@ -276,7 +276,8 @@
 (defun remove-sql-append ()
   (interactive)
   (replace-regexp "^[\t ^I]+sql.Append(\"" "" nil)
-  (replace-regexp "\");$" "" nil))
+  (replace-regexp "\");$" "" nil)
+  (replace-string "\");" ""))
 
 ;;; キーバインド定義
 ;;; C-t で ウィンドウ間を移動する
@@ -286,3 +287,11 @@
 ;;; Windowsの場合:
 ;;; C:\emacs\bin\emacsclientw.exe -n --a C:\emacs\bin\runemacs.exe "%1"
 (server-start)
+
+
+;;; よく忘れるコマンド集
+
+;;; 文字コード関連
+;; 文字コードを指定して開き直す
+;;C-x RET c 文字コードを入力 RET C-x C-v RET
+
