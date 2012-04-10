@@ -123,6 +123,10 @@
 (when (eq system-type 'darwin)
   (define-key key-translation-map [?\xa5] [?\\]))
 
+;; C-hにバックスペースを割り当てる(Console)
+(when (not window-system)
+  (global-set-key "\C-h" 'delete-backward-char))
+
 ;;; バックアップを残さない
 (setq make-backup-files nil)
 
