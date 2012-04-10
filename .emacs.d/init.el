@@ -119,17 +119,19 @@
   ; ただし半角カナはMS Gothicで表示する
   (set-fontset-font nil 'katakana-jisx0201 (font-spec :family "MS Gothic")))
 
-;; ;;; フォント設定(Linux)
-;; (when (eq system-type 'gnu/linux)
-;;   (set-face-attribute 'default nil
-;;                       :family "DejaVu Sans Mono"
-;;                       :height 100)
-;;   ;; 日本語はメイリオで表示する
-;;   ;(set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Meiryo"))
-;;   ; 日本語はメイリオで表示する
-;;   (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "MS Gothic"))
-;;   ; ただし半角カナはMS Gothicで表示する
-;;   (set-fontset-font nil 'katakana-jisx0201 (font-spec :family "MS Gothic")))
+;;; フォント設定(Linux)
+(when (eq system-type 'gnu/linux)
+  (set-default-font "-*-fixed-medium-r-normal--14-*-*-*-*-*-*-*")
+  (progn
+	(set-face-font 'default
+				   "-shinonome-gothic-medium-r-normal--14-*-*-*-*-*-*-*")
+	(set-face-font 'bold
+				   "-shinonome-gothic-bold-r-normal--14-*-*-*-*-*-*-*")
+	(set-face-font 'italic
+				   "-shinonome-gothic-medium-i-normal--14-*-*-*-*-*-*-*")
+	(set-face-font 'bold-italic
+				   "-shinonome-gothic-bold-i-normal--14-*-*-*-*-*-*-*")
+	))
 
 ;;￥マークを\にする(Mac用)
 (when (eq system-type 'darwin)
